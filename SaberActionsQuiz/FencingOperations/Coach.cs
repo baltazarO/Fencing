@@ -50,29 +50,25 @@ namespace SaberActionsQuiz.FencingOperations
             grades = new List<bool>();
         }
 
-        internal (bool, string?) GradeResponse(string currentAction, IEnumerable<Response> possibleResponses, string? userAnswer)
+        internal (bool, string?) GradeResponse(string currentAction, IEnumerable<Response> possibleResponses, char userAnswer)
         {
-            var result = IsUserCorrect(currentAction, possibleResponses, userAnswer ?? string.Empty);
+            var result = IsUserCorrect(currentAction, possibleResponses, userAnswer);
             grades.Add(result.Item1);
             return result;
         }
 
-        private (bool, string?) IsUserCorrect(string question, IEnumerable<Response> possibleResponses, string userAnswer)
+        private (bool, string?) IsUserCorrect(string question, IEnumerable<Response> possibleResponses, char userAnswer)
         {
             MapUserResponse(out List<string> usersAnswersHumanReadable, possibleResponses, userAnswer);
 
-            var correctAnswer = possibleResponses.ToList().FirstOrDefault(x => IsUserCorrectHelper(question, x.answer).Item1 is true);
-            foreach (var answer in usersAnswersHumanReadable)
-            {
-                var resultCheckQa = IsUserCorrectHelper(question, answer);
-                if (resultCheckQa.Item1) return resultCheckQa;
-            }
-            return (false, correctAnswer.answer);
+            var correctAnswer = possibleResponses.ToList().FirstOrDefault(x => IsUserCorrectHelper(question, x.answer));
+
+            return correctAnswer.letter == userAnswer ? (true, correctAnswer.answer) : (false, correctAnswer.answer);
         }
 
-        private static void MapUserResponse(out List<string> actions, IEnumerable<Response> possibleResponses, string userAnswer)
+        private static void MapUserResponse(out List<string> actions, IEnumerable<Response> possibleResponses, char userAnswer)
         {
-            var lettersUserTypedIn = userAnswer.Split(',').Select(c => char.Parse(c.Trim()));
+            var lettersUserTypedIn = userAnswer.ToString().Split(',').Select(c => char.Parse(c.Trim()));
             actions = new List<string>();
             foreach (var letter in lettersUserTypedIn)
             {
@@ -80,11 +76,11 @@ namespace SaberActionsQuiz.FencingOperations
             }
         }
 
-        private (bool, string) IsUserCorrectHelper(string question, string answer)
+        private bool IsUserCorrectHelper(string question, string answer)
         {
             var actionsThatBeatThis = new LinkedList<string>(originalKey.First(c => c.First() == question));
             actionsThatBeatThis.RemoveFirst();
-            return actionsThatBeatThis.Contains(answer) ? (true, answer) : (false, answer);
+            return actionsThatBeatThis.Contains(answer);
         }
 
         internal List<Response> PossibleAnswers()

@@ -24,7 +24,7 @@ namespace SaberActionsQuiz.UI
             foreach (var actionInQuestion in shuffledList)
             {
                 IEnumerable<Response> possibleResponses = ShowQuestion(actionInQuestion);
-                string? userAnswer = RecordAnswer();
+                char userAnswer = RecordAnswer();
                 var resultQA = TheCoach.GradeResponse(actionInQuestion, possibleResponses, userAnswer);
                 PrepareUIForNextQuestion(resultQA.Item1, resultQA.Item2);
             }
@@ -44,11 +44,14 @@ namespace SaberActionsQuiz.UI
             Console.WriteLine(prompt + Environment.NewLine);
         }
 
-        private static string? RecordAnswer()
+        private static char RecordAnswer()
         {
             Console.Write(Environment.NewLine + "Your answer: ");
-            var userAnswer = Console.ReadLine();
-            return userAnswer;
+            if (char.TryParse(Console.ReadLine(), out var answer))
+            {
+                return answer;
+            }
+            return default;
         }
 
         private IEnumerable<Response> ShowQuestion(string actionInQuestion)
