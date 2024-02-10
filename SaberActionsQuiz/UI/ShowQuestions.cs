@@ -10,23 +10,23 @@ namespace SaberActionsQuiz.UI
     /// <summary>
     /// Object for showing the text on the UI only
     /// </summary>
-    public class ShowQuestions
+    internal class ShowQuestions
     {
         private Coach TheCoach { get; set; }
-        public ShowQuestions()
+        internal ShowQuestions()
         {
             TheCoach = new Coach();
         }
 
-        public void ShowTheTest()
+        internal void ShowTheTest()
         {
             var shuffledList = TheCoach.GetActionsToAskAbout;
             foreach (var actionInQuestion in shuffledList)
             {
                 IEnumerable<Response> possibleResponses = ShowQuestion(actionInQuestion);
-                string? userAnswer = RecordAnswer();
-                TheCoach.GradeResponse(actionInQuestion, possibleResponses, userAnswer);
-                PrepareUIForNextQuestion(TheCoach.IsLastAnswerCorrect());
+                char userAnswer = RecordAnswer();
+                var resultQA = TheCoach.GradeResponse(actionInQuestion, possibleResponses, userAnswer);
+                PrepareUIForNextQuestion(resultQA.Item1, resultQA.Item2);
             }
             ShowOverallScore(TheCoach.HowDidIDo());
         }
@@ -38,18 +38,20 @@ namespace SaberActionsQuiz.UI
             Console.WriteLine();
         }
 
-        private static void PrepareUIForNextQuestion(bool isLastResponseCorrect)
+        private static void PrepareUIForNextQuestion(bool isLastResponseCorrect, string? resultAnswer)
         {
-            string prompt = isLastResponseCorrect ? "Correct!" : "Not quite";
-            Console.WriteLine(prompt);
-            Console.WriteLine();
+            string prompt = isLastResponseCorrect ? $"Excellent, you have given the correct answer:\n\t[*] {resultAnswer}" : $"Sorry the correct answer is equal to:\n\t[*] {resultAnswer}";
+            Console.WriteLine(prompt + Environment.NewLine);
         }
 
-        private static string? RecordAnswer()
+        private static char RecordAnswer()
         {
             Console.Write(Environment.NewLine + "Your answer: ");
-            var userAnswer = Console.ReadLine();
-            return userAnswer;
+            if (char.TryParse(Console.ReadLine(), out var answer))
+            {
+                return answer;
+            }
+            return default;
         }
 
         private IEnumerable<Response> ShowQuestion(string actionInQuestion)
@@ -60,11 +62,10 @@ namespace SaberActionsQuiz.UI
             {
                 Console.WriteLine($"\t{response.letter}) {response.answer}");
             }
-
             return possibleResponses;
         }
 
-        public struct Response
+        internal struct Response
         {
             public char letter;
             public string answer;

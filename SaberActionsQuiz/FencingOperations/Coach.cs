@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static SaberActionsQuiz.UI.ShowQuestions;
+﻿using static SaberActionsQuiz.UI.ShowQuestions;
 
 namespace SaberActionsQuiz.FencingOperations
 {
-    public class Coach
+    internal class Coach
     {
         private readonly List<string> _actions = new()
         {
@@ -20,7 +15,7 @@ namespace SaberActionsQuiz.FencingOperations
             "Feint"
         };
 
-        public List<string> GetActionsToAskAbout
+        internal List<string> GetActionsToAskAbout
         {
             get
             {
@@ -32,7 +27,7 @@ namespace SaberActionsQuiz.FencingOperations
         private readonly List<LinkedList<string>> originalKey;
         private List<bool> grades;
 
-        public Coach() 
+        internal Coach()
         {
             string[] oneStep = { "1 step attack", "Parry", "Short" };
             string[] twoStep = { "2 step attack", "1 step attack", "Parry", "Short" };
@@ -55,24 +50,25 @@ namespace SaberActionsQuiz.FencingOperations
             grades = new List<bool>();
         }
 
-        public void GradeResponse(string currentAction, IEnumerable<Response> possibleResponses, string? userAnswer)
+        internal (bool, string?) GradeResponse(string currentAction, IEnumerable<Response> possibleResponses, char userAnswer)
         {
-            grades.Add(IsUserCorrect(currentAction, possibleResponses, userAnswer));
+            var result = IsUserCorrect(currentAction, possibleResponses, userAnswer);
+            grades.Add(result.Item1);
+            return result;
         }
 
-        private bool IsUserCorrect(string question, IEnumerable<Response> possibleResponses, string userAnswer)
+        private (bool, string?) IsUserCorrect(string question, IEnumerable<Response> possibleResponses, char userAnswer)
         {
             MapUserResponse(out List<string> usersAnswersHumanReadable, possibleResponses, userAnswer);
-            foreach (var answer in usersAnswersHumanReadable)
-            {
-                if (IsUserCorrectHelper(question, answer)) return true;
-            }
-            return false;
+
+            var correctAnswer = possibleResponses.ToList().FirstOrDefault(x => IsUserCorrectHelper(question, x.answer));
+
+            return correctAnswer.letter == userAnswer ? (true, correctAnswer.answer) : (false, correctAnswer.answer);
         }
 
-        private static void MapUserResponse(out List<string> actions, IEnumerable<Response> possibleResponses, string userAnswer)
+        private static void MapUserResponse(out List<string> actions, IEnumerable<Response> possibleResponses, char userAnswer)
         {
-            var lettersUserTypedIn = userAnswer.Split(',').Select(c => char.Parse(c.Trim()));
+            var lettersUserTypedIn = userAnswer.ToString().Split(',').Select(c => char.Parse(c.Trim()));
             actions = new List<string>();
             foreach (var letter in lettersUserTypedIn)
             {
@@ -87,14 +83,14 @@ namespace SaberActionsQuiz.FencingOperations
             return actionsThatBeatThis.Contains(answer);
         }
 
-        public List<Response> PossibleAnswers()
+        internal List<Response> PossibleAnswers()
         {
             return GetActionsToAskAbout.Select((value, i) => new Response { letter = (char)(i + 65), answer = value }).ToList();
         }
 
-        public bool IsLastAnswerCorrect() => grades.Last();
+        internal bool IsLastAnswerCorrect() => grades.Last();
 
-        public decimal HowDidIDo()
+        internal decimal HowDidIDo()
         {
             int totalQuestions = grades.Count;
             int totalCorrect = grades.Count(c => c);
