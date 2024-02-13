@@ -8,6 +8,16 @@ Fencing is a lot like rock paper scissors. That is, everything has a counter act
 
 <img src="SaberActionsQuiz\Documentation\parry.gif" width="450" />
 
+| Action | Counter action |
+| ------ | -------------- |
+| 1 step attack | Parry, Short |
+| 2 step attack | 1 step attack, Parry, Short |
+| Long attack | 1 step attack, 2 step attack, Stop and go |
+| Stop and go | 1 step attack, 2 step attack, Feint |
+| Parry | Long attack, Stop and go, Feint |
+| Short | Long attack, Stop and go |
+| Feint | 1 step attack, 2 step attack |
+
 Original software author: Baltazar Ortiz
 
 Video credit: Dancing Tuna, Olympics (IOC)
