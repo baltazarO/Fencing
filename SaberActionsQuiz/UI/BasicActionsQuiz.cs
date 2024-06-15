@@ -10,12 +10,12 @@ namespace SaberActionsQuiz.UI
     /// <summary>
     /// Object for showing the text on the UI only
     /// </summary>
-    public class ShowQuestions
+    public class BasicActionsQuiz
     {
-        private Coach TheCoach { get; set; }
-        public ShowQuestions()
+        private FencingLogic TheCoach { get; set; }
+        public BasicActionsQuiz()
         {
-            TheCoach = new Coach();
+            TheCoach = new FencingLogic();
         }
 
         public void ShowTheTest()

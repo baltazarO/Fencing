@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static SaberActionsQuiz.UI.ShowQuestions;
+using static SaberActionsQuiz.UI.BasicActionsQuiz;
 
 namespace SaberActionsQuiz.FencingOperations
 {
-    public class Coach
+    public class FencingLogic
     {
         private readonly List<string> _actions = new()
         {
@@ -32,7 +32,7 @@ namespace SaberActionsQuiz.FencingOperations
         private readonly List<LinkedList<string>> originalKey;
         private List<bool> grades;
 
-        public Coach() 
+        public FencingLogic() 
         {
             string[] oneStep = { "1 step attack", "Parry", "Short" };
             string[] twoStep = { "2 step attack", "1 step attack", "Parry", "Short" };
@@ -100,5 +100,27 @@ namespace SaberActionsQuiz.FencingOperations
             int totalCorrect = grades.Count(c => c);
             return Math.Round(((totalCorrect * 1.00M) / totalQuestions) * 100.00M, 2);
         }
-    }
+
+        public enum PointOutcome
+        {
+            NONE,
+            WON,
+            LOST
+        }
+
+        public PointOutcome WhoWonPoint(string myAction, string opponentAction)
+        {
+            if (myAction == opponentAction) return PointOutcome.NONE;
+            if (IGotThePointOutright(myAction, opponentAction)) return PointOutcome.WON;
+            if (IGotThePointOutright(opponentAction, myAction)) return PointOutcome.LOST;
+            return PointOutcome.NONE;
+        }
+
+		private bool IGotThePointOutright(string myAction, string opponentAction) => IsUserCorrectHelper(myAction, opponentAction);
+
+		public List<string> ShowActions()
+        {
+            return _actions;
+        }
+	}
 }

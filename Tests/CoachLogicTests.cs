@@ -1,5 +1,5 @@
 using SaberActionsQuiz.FencingOperations;
-using static SaberActionsQuiz.UI.ShowQuestions;
+using static SaberActionsQuiz.UI.BasicActionsQuiz;
 
 namespace Tests
 {
@@ -22,7 +22,7 @@ namespace Tests
         [InlineData("1 step attack", "F, E", true)]
         public void Test1(string opponentAction, string yourAction, bool isBeatsItExpected)
         {
-            Coach coach = new();
+            FencingLogic coach = new();
             coach.GradeResponse(opponentAction, choices, yourAction);
             Assert.Equal(isBeatsItExpected, coach.IsLastAnswerCorrect());
         }
