@@ -221,6 +221,10 @@ project.lock.json
 # UWP Projects
 AppPackages/
 
+# SQL Project
+.jfm
+.refactorlog
+
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
