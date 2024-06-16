@@ -10,5 +10,14 @@ namespace SaberActionsQuiz.FencingOperations
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
+		public List<int> Bouts { get; set; }
+		public int GetRandomBout()
+		{
+			if (Bouts == null || !Bouts.Any()) throw new Exception("No bouts for this fencer");
+
+			Random random = new Random();
+			int randomIndex = random.Next(Bouts.Count);
+			return Bouts[randomIndex];
+		}
 	}
 }

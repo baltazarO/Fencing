@@ -14,12 +14,14 @@ namespace SaberActionsQuiz.UI
 	{
 		private List<Fencer> _fencers;
 		public FencingLogic Coach { get; set; }
+		public FencingCounter Counter { get; set; }
 		public BoutMenu(List<Fencer> fencers)
 		{
 			_fencers = fencers;
 			Coach = new FencingLogic();
+			Counter = new FencingCounter();
 		}
-		public int ShowOptions()
+		public Opponent ShowOptions()
 		{
 			Console.WriteLine("List of Fencers:");
 			foreach (var fencer in _fencers)
@@ -34,7 +36,7 @@ namespace SaberActionsQuiz.UI
 			{
 				Fencer selectedFencer = _fencers[choice];
 				Console.WriteLine($"You will fence: {selectedFencer.Name}");
-				return selectedFencer.Id;
+				return new Opponent { FencerId = selectedFencer.Id, BoutId = selectedFencer.GetRandomBout() };
 			}
 			else
 			{
@@ -45,21 +47,24 @@ namespace SaberActionsQuiz.UI
 
 		public void ShowBout(Bout bout)
 		{
+			Console.WriteLine();
 			foreach (var action in bout.FencingActions)
 			{
 				Console.WriteLine("Hey, what action will you give?");
 				string userAction = Console.ReadLine();
-
-				//Fencer winner = BoutLogic.DetermineWinner(userAction, action);
-				var outcome = Coach.WhoWonPoint(userAction, action.Name);
+				var outcome = Coach.WhoWonPoint(userAction, action.Name, Counter);
 
 				if (outcome == FencingLogic.PointOutcome.WON)
 				{
-					Console.WriteLine($"My point; he did a {action.Name}");
+					Console.WriteLine(Environment.NewLine + $"My point; he did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
 				}
 				else if (outcome == FencingLogic.PointOutcome.LOST)
 				{
-					Console.WriteLine($"His point; he did a {action.Name}");
+					Console.WriteLine(Environment.NewLine + $"His point; he did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
+				}
+				else
+				{
+					Console.WriteLine(Environment.NewLine + "No point" + Environment.NewLine);
 				}
 			}
 		}

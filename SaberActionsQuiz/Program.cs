@@ -28,18 +28,11 @@ if (choice == 'A')
 }
 else if (choice == 'B')
 {
-	// bout
-	// query the list of fencers
-	// show the list of fencers
-	// let the user choose one
-	// query a random bout for that fencer
-	// give user actions to choose from
-	// compare that to the action and see who won
-	// keep the score
 	string? connectionString = Environment.GetEnvironmentVariable("MY_FENCING_DATABASE_CONNECTION_STRING");
 	if (connectionString == null) throw new ArgumentNullException(nameof(connectionString));
 	var db = new FencingDatabaseRepo(connectionString);
-	var menu = new BoutMenu(db.GetFencers());
+	var fencingRoster = db.GetFencers();
+	var menu = new BoutMenu(fencingRoster);
 	var opponent = menu.ShowOptions();
 	var bout = db.GetBout(opponent);
 	menu.ShowBout(bout);

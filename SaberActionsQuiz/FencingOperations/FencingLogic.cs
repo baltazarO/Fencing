@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,7 +86,7 @@ namespace SaberActionsQuiz.FencingOperations
             var actionsThatBeatThis = new LinkedList<string>(originalKey.First(c => c.First() == question));
             actionsThatBeatThis.RemoveFirst();
             return actionsThatBeatThis.Contains(answer);
-        }
+        } 
 
         public List<Response> PossibleAnswers()
         {
@@ -108,11 +109,19 @@ namespace SaberActionsQuiz.FencingOperations
             LOST
         }
 
-        public PointOutcome WhoWonPoint(string myAction, string opponentAction)
+        public PointOutcome WhoWonPoint(string myAction, string opponentAction, FencingCounter? counter = null)
         {
             if (myAction == opponentAction) return PointOutcome.NONE;
-            if (IGotThePointOutright(myAction, opponentAction)) return PointOutcome.WON;
-            if (IGotThePointOutright(opponentAction, myAction)) return PointOutcome.LOST;
+            if (IGotThePointOutright(opponentAction, myAction)) 
+            {
+                if (counter != null) counter.WonTheTouch();
+                return PointOutcome.WON; 
+            }
+            if (IGotThePointOutright(myAction, opponentAction)) 
+            { 
+                if (counter != null) counter.LostTheTouch();
+                return PointOutcome.LOST; 
+            }
             return PointOutcome.NONE;
         }
 
