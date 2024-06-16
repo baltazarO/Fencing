@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[Fencer]
 (
 	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY, 
-    [Name] NVARCHAR(64) NOT NULL
+    [Name] NVARCHAR(64) NOT NULL, 
+    [Gender] NVARCHAR(2) NOT NULL
 )

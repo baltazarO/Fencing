@@ -62,7 +62,7 @@ namespace SaberActionsQuiz.DataLayer
 				// Query to retrieve bout and its actions (modify as needed)
 
 				string query = @"
-                SELECT [Action], [Order], f.Id, f.[Name]
+                SELECT [Action], [Order], f.Id, f.[Name], Gender
 				  FROM [Bout] b
 				  inner join [Action] a on b.Id = a.Bout
 				  inner join [Fencer] f on f.Id = a.Fencer
@@ -87,7 +87,8 @@ namespace SaberActionsQuiz.DataLayer
 								Fencer fencer = new Fencer
 								{
 									Id = reader.GetInt32(2),
-									Name = reader.GetString(3)
+									Name = reader.GetString(3),
+									Gender = reader.GetString(4)
 								};
 								bout.Opponent = fencer;
 								bout.FencingActions = new List<FencingAction>();

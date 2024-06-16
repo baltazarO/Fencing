@@ -10,6 +10,7 @@ namespace SaberActionsQuiz.FencingOperations
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
+		public string Gender { get; set; }
 		public List<int> Bouts { get; set; }
 		public int GetRandomBout()
 		{

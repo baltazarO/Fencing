@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace SaberActionsQuiz.UI
 {
@@ -47,6 +48,8 @@ namespace SaberActionsQuiz.UI
 
 		public void ShowBout(Bout bout)
 		{
+			var genderRespectingPronoun = bout.Opponent.Gender == "M" ? "he" : "she";
+			var genderRespectingPronoun2 = bout.Opponent.Gender == "M" ? "His" : "Her";
 			Console.WriteLine();
 			foreach (var action in bout.FencingActions)
 			{
@@ -56,15 +59,15 @@ namespace SaberActionsQuiz.UI
 
 				if (outcome == FencingLogic.PointOutcome.WON)
 				{
-					Console.WriteLine(Environment.NewLine + $"My point; he did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
+					Console.WriteLine(Environment.NewLine + $"My point; {genderRespectingPronoun} did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
 				}
 				else if (outcome == FencingLogic.PointOutcome.LOST)
 				{
-					Console.WriteLine(Environment.NewLine + $"His point; he did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
+					Console.WriteLine(Environment.NewLine + $"{genderRespectingPronoun2} point; {genderRespectingPronoun} did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
 				}
 				else
 				{
-					Console.WriteLine(Environment.NewLine + $"No point; he did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
+					Console.WriteLine(Environment.NewLine + $"No point; {genderRespectingPronoun} did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
 				}
 			}
 		}
