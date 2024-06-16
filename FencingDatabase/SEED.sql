@@ -34,6 +34,7 @@ BEGIN
   SET IDENTITY_INSERT dbo.Bout ON;
   INSERT INTO dbo.Bout(Id) VALUES (1);
   INSERT INTO dbo.Bout(Id) VALUES (2);
+  INSERT INTO dbo.Bout(Id) VALUES (3);
   SET IDENTITY_INSERT dbo.Bout OFF;
 
   SET IDENTITY_INSERT dbo.Fencer ON;
@@ -92,5 +93,33 @@ BEGIN
   INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 23, 2);
   INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 24, 2);
   INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 25, 2);
+
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Parry', 1, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Parry', 2, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '2 step attack', 3, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '2 step attack', 4, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Parry', 5, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 6, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Parry', 7, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Parry', 8, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '2 step attack', 9, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '2 step attack', 10, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Long attack', 11, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Parry', 12, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 13, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 14, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Parry', 15, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 15, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '2 step attack', 16, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 17, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '2 step attack', 18, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 19, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '2 step attack', 20, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '1 step attack', 21, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Long attack', 22, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 23, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, '2 step attack', 24, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Parry', 25, 3);
+  INSERT INTO dbo.[Action](Fencer, [Action], [Order], [Bout]) VALUES (2, 'Short', 26, 3);
 
 END;

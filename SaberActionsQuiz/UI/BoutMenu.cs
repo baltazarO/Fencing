@@ -64,7 +64,7 @@ namespace SaberActionsQuiz.UI
 				}
 				else
 				{
-					Console.WriteLine(Environment.NewLine + "No point" + Environment.NewLine);
+					Console.WriteLine(Environment.NewLine + $"No point; he did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
 				}
 			}
 		}
