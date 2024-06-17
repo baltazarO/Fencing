@@ -19,5 +19,7 @@ namespace SaberActionsQuiz.FencingOperations
 
 		public void LostTheTouch() => _fencer2Score++;
 		public string ShowScore() => $"{_fencer1Score} - {_fencer2Score}";
+
+		public bool IsWinnerDecided() => _fencer1Score == 15 || _fencer2Score == 15;
 	}
 }

@@ -1,13 +1,4 @@
 ﻿using SaberActionsQuiz.FencingOperations;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 
 namespace SaberActionsQuiz.UI
 {
@@ -56,19 +47,32 @@ namespace SaberActionsQuiz.UI
 				Console.WriteLine("Hey, what action will you give?");
 				string userAction = Console.ReadLine();
 				var outcome = Coach.WhoWonPoint(userAction, action.Name, Counter);
+				ShowWinner(genderRespectingPronoun, genderRespectingPronoun2, action, outcome);
+				if (Counter.IsWinnerDecided()) break;
+			}
+		}
 
-				if (outcome == FencingLogic.PointOutcome.WON)
-				{
-					Console.WriteLine(Environment.NewLine + $"My point; {genderRespectingPronoun} did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
-				}
-				else if (outcome == FencingLogic.PointOutcome.LOST)
-				{
-					Console.WriteLine(Environment.NewLine + $"{genderRespectingPronoun2} point; {genderRespectingPronoun} did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
-				}
-				else
-				{
-					Console.WriteLine(Environment.NewLine + $"No point; {genderRespectingPronoun} did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
-				}
+		private void ShowWinner(string genderRespectingPronoun, string genderRespectingPronoun2, FencingAction action, FencingLogic.PointOutcome outcome)
+		{
+			if (outcome == FencingLogic.PointOutcome.WON)
+			{
+				Console.Write(Environment.NewLine + $"My point; {genderRespectingPronoun} did a ");
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.Write($"{action.Name}");
+				Console.ResetColor();
+				Console.WriteLine($" - [{ Counter.ShowScore()}]" + Environment.NewLine);
+			}
+			else if (outcome == FencingLogic.PointOutcome.LOST)
+			{
+				Console.Write(Environment.NewLine + $"{genderRespectingPronoun2} point; {genderRespectingPronoun} did a ");
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.Write($"{action.Name}");
+				Console.ResetColor();
+				Console.WriteLine($" - [{Counter.ShowScore()}]" + Environment.NewLine);
+			}
+			else
+			{
+				Console.WriteLine(Environment.NewLine + $"No point; {genderRespectingPronoun} did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
 			}
 		}
 	}
