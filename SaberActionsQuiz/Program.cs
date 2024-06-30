@@ -37,3 +37,5 @@ else if (choice == 'B')
 	var bout = db.GetBout(opponent);
 	menu.ShowBout(bout);
 }
+
+Thread.Sleep(1000);
