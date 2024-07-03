@@ -22,19 +22,32 @@ namespace SaberActionsQuiz.UI
 			}
 
 			Console.WriteLine("\nChoose a fencer (enter number):");
-			int choice = int.Parse(Console.ReadLine()) - 1;
+			string rawInput = Console.ReadLine();
+			string userInput = rawInput.ToLower();
 
+			if (userInput == "random")
+			{
+				Random random = new Random();
+				int randomIndex = random.Next(_fencers.Count);
+				Fencer fencer = _fencers[randomIndex];
+				return SelectAndShowOpponent(fencer);
+			}
+
+			int choice = int.Parse(rawInput) - 1;
 			if (choice >= 0 && choice < _fencers.Count)
 			{
 				Fencer selectedFencer = _fencers[choice];
-				Console.WriteLine($"You will fence: {selectedFencer.Name}");
-				return new Opponent { FencerId = selectedFencer.Id, BoutId = selectedFencer.GetRandomBout() };
+				return SelectAndShowOpponent(selectedFencer);
 			}
-			else
-			{
-				Console.WriteLine("Invalid choice.");
-				throw new Exception();
-			}
+
+			Console.WriteLine("Invalid choice.");
+			throw new Exception();
+		}
+
+		private static Opponent SelectAndShowOpponent(Fencer selectedFencer)
+		{
+			Console.WriteLine($"You will fence: {selectedFencer.Name}");
+			return new Opponent { FencerId = selectedFencer.Id, BoutId = selectedFencer.GetRandomBout() };
 		}
 
 		public void ShowBout(Bout bout)
