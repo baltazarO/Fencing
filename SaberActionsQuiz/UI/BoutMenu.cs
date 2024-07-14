@@ -1,4 +1,5 @@
 ﻿using SaberActionsQuiz.FencingOperations;
+using static SaberActionsQuiz.FencingOperations.TieBreakerGame;
 
 namespace SaberActionsQuiz.UI
 {
@@ -86,6 +87,54 @@ namespace SaberActionsQuiz.UI
 			else
 			{
 				Console.WriteLine(Environment.NewLine + $"No point; {genderRespectingPronoun} did a {action.Name} - [{Counter.ShowScore()}]" + Environment.NewLine);
+				ConsultTheTieBreaker(genderRespectingPronoun2);
+			}
+		}
+
+		private void ShowWinnerOutOfTheBox(string genderRespectingPronoun2, FencingLogic.PointOutcome outcome)
+		{
+			if (outcome == FencingLogic.PointOutcome.WON)
+			{
+				Counter.WonTheTouch();
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.Write(Environment.NewLine + $"My point");
+				Console.ResetColor();
+				Console.WriteLine($" - [{Counter.ShowScore()}]" + Environment.NewLine);
+			}
+			else if (outcome == FencingLogic.PointOutcome.LOST)
+			{
+				Counter.LostTheTouch();
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.Write(Environment.NewLine + $"{genderRespectingPronoun2} point");
+				Console.ResetColor();
+				Console.WriteLine($" - [{Counter.ShowScore()}]" + Environment.NewLine);
+			}
+		}
+
+		private void ConsultTheTieBreaker(string genderRespectingPronoun2)
+		{
+			HandShape playerChoice = GetPlayerChoice();
+			HandShape computerChoice = GetComputerChoice();
+			var result = DetermineWinner(playerChoice, computerChoice);
+			if (result != FencingLogic.PointOutcome.NONE) ShowWinnerOutOfTheBox(genderRespectingPronoun2, result);
+			else Console.WriteLine("Nothing");
+		}
+
+		public static HandShape GetPlayerChoice()
+		{
+			Console.WriteLine("Enter your choice (Rock, Paper, Scissors):");
+			string input = Console.ReadLine().ToLower();
+
+			if (input == "rock")
+				return HandShape.Rock;
+			else if (input == "paper")
+				return HandShape.Paper;
+			else if (input == "scissors")
+				return HandShape.Scissors;
+			else
+			{
+				Console.WriteLine("Invalid input. Please try again.");
+				return GetPlayerChoice(); // Recursive call for invalid input
 			}
 		}
 	}
