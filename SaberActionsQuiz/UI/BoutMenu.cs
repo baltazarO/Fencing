@@ -59,7 +59,8 @@ namespace SaberActionsQuiz.UI
 			foreach (var action in bout.FencingActions)
 			{
 				Console.WriteLine("Hey, what action will you give?");
-				string userAction = Console.ReadLine();
+				string userAction;
+				while (!Coach.IsProperAction(userAction = Console.ReadLine())) { }
 				var outcome = Coach.WhoWonPoint(userAction, action.Name, Counter);
 				ShowWinner(genderRespectingPronoun, genderRespectingPronoun2, action, outcome);
 				if (Counter.IsWinnerDecided()) break;

@@ -131,5 +131,10 @@ namespace SaberActionsQuiz.FencingOperations
         {
             return _actions;
         }
+
+		public bool IsProperAction(string action)
+		{
+			return _actions.Contains(action);
+		}
 	}
 }
